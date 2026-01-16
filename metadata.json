@@ -1,0 +1,5 @@
+{
+  "name": "PNG to ICO Converter",
+  "description": "A client-side web application to convert PNG files to ICO format directly in the browser. It supports drag-and-drop, preserves transparency, and requires no server interaction.",
+  "requestFramePermissions": []
+}
