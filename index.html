@@ -21,8 +21,8 @@
     <script>
       (() => {
         try {
-          const storageKey = document.documentElement.dataset.themeKey || 'theme';
-          const storedTheme = localStorage.getItem(storageKey);
+          const themeStorageKey = document.documentElement.dataset.themeKey || 'theme';
+          const storedTheme = localStorage.getItem(themeStorageKey);
           const theme =
             storedTheme === 'dark' || storedTheme === 'light'
               ? storedTheme

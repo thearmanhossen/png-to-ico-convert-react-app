@@ -12,6 +12,7 @@ import {
 import { HistoryEntry, HistoryPanel } from './components/HistoryPanel';
 import { ThemeToggle } from './components/ThemeToggle';
 import { convertPngToIco } from './utils/converter';
+import { HISTORY_PREVIEW_COUNT } from './utils/constants';
 
 declare const JSZip: any;
 
@@ -35,7 +36,7 @@ interface IcoFile {
 
 const formatSize = (bytes: number) => `${(bytes / 1024).toFixed(2)} KB`;
 
-const createHistoryId = () =>
+const generateHistoryEntryId = () =>
   typeof crypto !== 'undefined' && 'randomUUID' in crypto
     ? crypto.randomUUID()
     : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -166,8 +167,9 @@ const App: React.FC = () => {
 
     if (failedFiles.length > 0) {
       setError(
-        `Failed to convert ${failedFiles.length} file(s): ${failedFiles.slice(0, 3).join(', ')}${
-          failedFiles.length > 3 ? '…' : ''
+        `Failed to convert ${failedFiles.length} file(s): ${failedFiles
+          .slice(0, HISTORY_PREVIEW_COUNT)
+          .join(', ')}${failedFiles.length > HISTORY_PREVIEW_COUNT ? '…' : ''}
         }`,
       );
     }
@@ -175,14 +177,14 @@ const App: React.FC = () => {
     if (results.length > 0) {
       setIcoFiles(results);
       const entry: HistoryEntry = {
-        id: createHistoryId(),
+        id: generateHistoryEntryId(),
         timestamp: Date.now(),
         fileCount: results.length,
         sizes: normalizedSizes,
         fileNames: results.map((file) => file.name),
       };
-      setHistory((previous) => {
-        const updated = [entry, ...previous].slice(0, HISTORY_LIMIT);
+      setHistory((previousHistory) => {
+        const updated = [entry, ...previousHistory].slice(0, HISTORY_LIMIT);
         try {
           window.localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(updated));
         } catch (storageError) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { HISTORY_PREVIEW_COUNT } from '../utils/constants';
 
 export interface HistoryEntry {
   id: string;
@@ -48,8 +49,10 @@ export const HistoryPanel: React.FC<HistoryPanelProps> = ({ items, onClear }) =>
               </p>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 sm:max-w-xs sm:text-right">
-              {entry.fileNames.slice(0, 3).join(', ')}
-              {entry.fileNames.length > 3 ? ` +${entry.fileNames.length - 3} more` : ''}
+              {entry.fileNames.slice(0, HISTORY_PREVIEW_COUNT).join(', ')}
+              {entry.fileNames.length > HISTORY_PREVIEW_COUNT
+                ? ` +${entry.fileNames.length - HISTORY_PREVIEW_COUNT} more`
+                : ''}
             </p>
           </div>
         ))}

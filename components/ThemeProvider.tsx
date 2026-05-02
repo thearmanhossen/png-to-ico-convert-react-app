@@ -10,7 +10,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-const getStorageKey = () => {
+const getThemeStorageKey = () => {
   if (typeof document === 'undefined') {
     return 'theme';
   }
@@ -23,7 +23,7 @@ const getInitialTheme = (): ThemeMode => {
   }
 
   try {
-    const storedTheme = window.localStorage.getItem(getStorageKey());
+    const storedTheme = window.localStorage.getItem(getThemeStorageKey());
     if (storedTheme === 'dark' || storedTheme === 'light') {
       return storedTheme;
     }
@@ -41,7 +41,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const root = document.documentElement;
     root.classList.toggle('dark', theme === 'dark');
     try {
-      window.localStorage.setItem(getStorageKey(), theme);
+      window.localStorage.setItem(getThemeStorageKey(), theme);
     } catch (error) {
       console.error('Failed to persist theme preference to localStorage', error);
     }
