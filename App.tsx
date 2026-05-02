@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { FileUploader } from './components/FileUploader';
 import { SizeSelector } from './components/SizeSelector';
-import { DownloadIcon, LoaderIcon, ConvertIcon, CheckCircleIcon, TrashIcon, ZipIcon } from './components/Icons';
+import { DownloadIcon, LoaderIcon, ConvertIcon, CheckCircleIcon, TrashIcon, ZipIcon, SunIcon, MoonIcon } from './components/Icons';
 import { convertPngToIco } from './utils/converter';
 
 declare const JSZip: any;
@@ -18,6 +18,19 @@ const App: React.FC = () => {
   const [selectedSize, setSelectedSize] = useState<number>(512);
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => document.documentElement.classList.contains('dark'));
+
+  const toggleDarkMode = useCallback(() => {
+    setIsDarkMode(prev => {
+      const next = !prev;
+      if (next) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      return next;
+    });
+  }, []);
 
   const handleFileSelect = useCallback((files: File[]) => {
     let incomingFiles = Array.from(files);
@@ -102,16 +115,16 @@ const App: React.FC = () => {
   
   const renderFilePreviewList = () => (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-center text-slate-300">
+      <h2 className="text-xl font-semibold text-center text-slate-700 dark:text-slate-300">
         {pngFiles.length} file(s) ready to convert
       </h2>
-      <div className="max-h-60 overflow-y-auto bg-slate-900/50 p-3 rounded-lg space-y-2">
+      <div className="max-h-60 overflow-y-auto bg-slate-200/50 dark:bg-slate-900/50 p-3 rounded-lg space-y-2">
         {pngFiles.map((file, index) => (
-          <div key={index} className="flex items-center gap-3 bg-slate-700/50 p-2 rounded-md">
-            <img src={URL.createObjectURL(file)} alt={file.name} className="w-10 h-10 rounded-md object-contain bg-white/10 p-1" />
+          <div key={index} className="flex items-center gap-3 bg-slate-100 dark:bg-slate-700/50 p-2 rounded-md">
+            <img src={URL.createObjectURL(file)} alt={file.name} className="w-10 h-10 rounded-md object-contain bg-black/5 dark:bg-white/10 p-1" />
             <div className="flex-grow overflow-hidden">
-              <p className="text-sm font-medium text-slate-300 truncate">{file.name}</p>
-              <p className="text-xs text-slate-400">{(file.size / 1024).toFixed(2)} KB</p>
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">{file.name}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{(file.size / 1024).toFixed(2)} KB</p>
             </div>
           </div>
         ))}
@@ -130,7 +143,7 @@ const App: React.FC = () => {
         </button>
         <button
           onClick={handleReset}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-slate-700 text-slate-300 font-semibold rounded-lg hover:bg-slate-600 transition-colors"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
         >
           <TrashIcon /> Clear
         </button>
@@ -140,11 +153,11 @@ const App: React.FC = () => {
 
   const renderResultsList = () => (
     <div className="space-y-4 text-center">
-      <div className="flex items-center justify-center gap-2 text-green-400">
+      <div className="flex items-center justify-center gap-2 text-green-600 dark:text-green-400">
          <CheckCircleIcon />
          <p className="font-semibold text-xl">Conversion Successful!</p>
       </div>
-       <p className="text-slate-400">{icoFiles.length} file(s) converted to .ico format.</p>
+       <p className="text-slate-500 dark:text-slate-400">{icoFiles.length} file(s) converted to .ico format.</p>
        
        <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
         <button
@@ -156,18 +169,18 @@ const App: React.FC = () => {
         </button>
         <button
           onClick={handleReset}
-          className="w-full sm:w-auto px-6 py-3 bg-slate-700 text-slate-300 font-semibold rounded-lg hover:bg-slate-600 transition-colors"
+          className="w-full sm:w-auto px-6 py-3 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
         >
           Start Over
         </button>
       </div>
        
-      <div className="max-h-60 overflow-y-auto bg-slate-900/50 p-3 mt-4 rounded-lg space-y-2 text-left">
+      <div className="max-h-60 overflow-y-auto bg-slate-200/50 dark:bg-slate-900/50 p-3 mt-4 rounded-lg space-y-2 text-left">
         {icoFiles.map((file, index) => (
-           <div key={index} className="flex items-center gap-3 bg-slate-700/50 p-2 rounded-md">
+           <div key={index} className="flex items-center gap-3 bg-slate-100 dark:bg-slate-700/50 p-2 rounded-md">
             <div className="flex-grow overflow-hidden">
-              <p className="text-sm font-medium text-slate-300 truncate">{file.name}.ico</p>
-              <p className="text-xs text-slate-400">{(file.originalSize / 1024).toFixed(2)} KB → {(file.blob.size / 1024).toFixed(2)} KB</p>
+              <p className="text-sm font-medium text-slate-700 dark:text-slate-300 truncate">{file.name}.ico</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{(file.originalSize / 1024).toFixed(2)} KB → {(file.blob.size / 1024).toFixed(2)} KB</p>
             </div>
             <button
                 onClick={() => handleSingleDownload(file.name, file.blob)}
@@ -182,19 +195,26 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-900 text-slate-200">
-      <header className="py-6 text-center">
+    <div className="flex flex-col min-h-screen bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200">
+      <header className="py-6 text-center relative">
+        <button
+          onClick={toggleDarkMode}
+          aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          className="absolute right-6 top-1/2 -translate-y-1/2 p-2 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
+        >
+          {isDarkMode ? <SunIcon /> : <MoonIcon />}
+        </button>
         <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
           PNG → ICO Converter
         </h1>
-        <p className="mt-2 text-slate-400">Batch convert PNG files to ICO format without quality loss.</p>
+        <p className="mt-2 text-slate-500 dark:text-slate-400">Batch convert PNG files to ICO format without quality loss.</p>
       </header>
 
       <main className="flex-grow flex items-center justify-center p-4">
-        <div className="w-full max-w-xl mx-auto bg-slate-800/50 rounded-2xl shadow-2xl shadow-blue-500/10 backdrop-blur-sm border border-slate-700">
+        <div className="w-full max-w-xl mx-auto bg-white/80 dark:bg-slate-800/50 rounded-2xl shadow-2xl shadow-blue-500/10 backdrop-blur-sm border border-slate-200 dark:border-slate-700">
           <div className="p-6 md:p-8">
             
-            {error && <p className="mb-4 text-center text-red-400 bg-red-900/50 p-3 rounded-lg whitespace-pre-line">{error}</p>}
+            {error && <p className="mb-4 text-center text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/50 p-3 rounded-lg whitespace-pre-line">{error}</p>}
             
             {pngFiles.length === 0 && icoFiles.length === 0 && <FileUploader onFileSelect={handleFileSelect} />}
             {pngFiles.length > 0 && renderFilePreviewList()}
@@ -204,7 +224,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      <footer className="py-6 text-center text-slate-500">
+      <footer className="py-6 text-center text-slate-400 dark:text-slate-500">
         <p>Built by a world-class React engineer</p>
       </footer>
     </div>

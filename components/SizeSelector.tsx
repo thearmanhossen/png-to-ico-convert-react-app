@@ -14,7 +14,7 @@ export const SizeSelector: React.FC<SizeSelectorProps> = ({ selectedSize, onSele
 
   return (
     <div className="my-4">
-      <h3 className="text-lg font-semibold text-center text-slate-300 mb-3">Select Icon Size</h3>
+      <h3 className="text-lg font-semibold text-center text-slate-700 dark:text-slate-300 mb-3">Select Icon Size</h3>
       <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
         {SIZES.map((size) => (
           <button
@@ -23,7 +23,7 @@ export const SizeSelector: React.FC<SizeSelectorProps> = ({ selectedSize, onSele
             className={`p-2 w-full rounded-lg font-mono text-sm font-semibold border-2 transition-all duration-200 ${
               selectedSize === size
                 ? 'bg-blue-600 border-blue-500 text-white shadow-md'
-                : 'bg-slate-700/50 border-slate-600 hover:border-slate-500 hover:bg-slate-700 text-slate-300'
+                : 'bg-slate-200/50 dark:bg-slate-700/50 border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300'
             }`}
           >
             {size}

@@ -55,7 +55,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect }) => {
       onDragOver={handleDrag}
       onDrop={handleDrop}
       onClick={handleUploaderClick}
-      className={`p-8 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 text-center ${isDragging ? 'border-blue-500 bg-blue-900/30' : 'border-slate-600 hover:border-slate-500 hover:bg-slate-700/50'}`}
+      className={`p-8 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 text-center ${isDragging ? 'border-blue-500 bg-blue-100/50 dark:bg-blue-900/30' : 'border-slate-300 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`}
     >
       <input
         ref={fileInputRef}
@@ -65,10 +65,10 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect }) => {
         onChange={handleFileChange}
         multiple
       />
-      <div className="flex flex-col items-center justify-center gap-4 text-slate-400">
+      <div className="flex flex-col items-center justify-center gap-4 text-slate-500 dark:text-slate-400">
         <UploadIcon />
-        <p className="font-semibold text-slate-300">
-          <span className="text-blue-400">Click to upload</span> or drag and drop
+        <p className="font-semibold text-slate-600 dark:text-slate-300">
+          <span className="text-blue-500 dark:text-blue-400">Click to upload</span> or drag and drop
         </p>
         <p className="text-sm">PNG files only</p>
       </div>
