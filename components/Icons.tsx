@@ -46,3 +46,23 @@ export const ZipIcon: React.FC = () => (
       <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4m0 0v4m0-4h4m-4 0H8" />
   </svg>
 );
+
+export const SunIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 4.75V3.25M12 20.75v-1.5M6.75 6.75 5.7 5.7M18.3 18.3l-1.05-1.05M4.75 12H3.25M20.75 12h-1.5M6.75 17.25 5.7 18.3M18.3 5.7l-1.05 1.05M12 7.75A4.25 4.25 0 1 0 12 16.25a4.25 4.25 0 0 0 0-8.5Z"
+    />
+  </svg>
+);
+
+export const MoonIcon: React.FC = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M21 12.8A8.25 8.25 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z"
+    />
+  </svg>
+);

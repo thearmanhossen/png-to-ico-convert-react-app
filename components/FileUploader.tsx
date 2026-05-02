@@ -55,7 +55,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect }) => {
       onDragOver={handleDrag}
       onDrop={handleDrop}
       onClick={handleUploaderClick}
-      className={`p-8 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 text-center ${isDragging ? 'border-blue-500 bg-blue-900/30' : 'border-slate-600 hover:border-slate-500 hover:bg-slate-700/50'}`}
+      className={`group cursor-pointer rounded-2xl border border-dashed px-6 py-10 text-center transition-all duration-200 ${
+        isDragging
+          ? 'border-slate-900 bg-slate-100 text-slate-900 dark:border-white dark:bg-slate-900/60 dark:text-white'
+          : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-300 dark:hover:border-slate-600'
+      }`}
     >
       <input
         ref={fileInputRef}
@@ -65,12 +69,18 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect }) => {
         onChange={handleFileChange}
         multiple
       />
-      <div className="flex flex-col items-center justify-center gap-4 text-slate-400">
-        <UploadIcon />
-        <p className="font-semibold text-slate-300">
-          <span className="text-blue-400">Click to upload</span> or drag and drop
-        </p>
-        <p className="text-sm">PNG files only</p>
+      <div className="flex flex-col items-center justify-center gap-4">
+        <div className="rounded-full border border-slate-200 bg-white p-3 text-slate-400 shadow-sm transition group-hover:text-slate-600 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300">
+          <UploadIcon />
+        </div>
+        <div>
+          <p className="text-base font-semibold text-slate-900 dark:text-white">
+            {isDragging ? 'Drop your PNG files' : 'Drop PNG files here'}
+          </p>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            or click to browse · up to 100 files at once
+          </p>
+        </div>
       </div>
     </div>
   );

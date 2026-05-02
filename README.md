@@ -33,14 +33,16 @@ A fast, fully client-side PNG to ICO converter built with React and TypeScript. 
 ## Features
 
 - **Client-side conversion** — all processing happens in the browser using the Canvas API; no files ever leave your machine.
-- **Drag & drop or click-to-upload** — intuitive file upload with visual drag-over feedback.
+- **Drag & drop or click-to-upload** — intuitive file upload with real-time previews and progress.
 - **Batch conversion** — convert up to 100 PNG files in a single operation.
-- **Flexible icon sizes** — choose from 8 standard sizes: 16 × 16, 24 × 24, 32 × 32, 48 × 48, 64 × 64, 128 × 128, 256 × 256, or 512 × 512 pixels.
+- **Flexible icon sizes** — choose any combination of 16 × 16, 32 × 32, 48 × 48, or 256 × 256 pixels.
 - **Transparency support** — generates 32-bit RGBA ICO files that preserve alpha channels.
 - **File preview** — thumbnail previews with file name and size shown before conversion.
 - **Individual download** — download any converted file as a `.ico` directly.
 - **Download all as ZIP** — bundle all converted icons into a single `converted_icons.zip` file.
-- **PNG-only validation** — non-PNG files are silently filtered out with a user-friendly warning.
+- **PNG-only validation** — non-PNG files are filtered out with clear, user-friendly warnings.
+- **Dark / Light mode** — theme toggle with persisted preference.
+- **History** — recent conversions saved in local browser storage.
 
 ---
 
@@ -113,7 +115,7 @@ npm run preview
 1. **Open the app** in your browser (see [Run Locally](#run-locally)).
 2. **Upload PNG files** by dragging and dropping them onto the upload area, or clicking it to open a file picker. Up to **100 PNG files** can be selected at once.
 3. **Review** the file list. Each entry shows a thumbnail, file name, and file size.
-4. **Select an icon size** from the size grid (default: 512 px).
+4. **Select one or more icon sizes** from the size grid.
 5. Click **Convert** to start the conversion. Progress is indicated by a loading spinner.
 6. Once complete, **download** individual `.ico` files using the download button next to each entry, or click **Download All (.zip)** to get all files in a single archive.
 7. Click **Start Over** (or **Clear**) to reset and convert another batch.
@@ -125,15 +127,11 @@ npm run preview
 | Size | Common Use |
 |---|---|
 | 16 × 16 | Browser favicons, taskbar icons |
-| 24 × 24 | Small toolbar icons |
 | 32 × 32 | Desktop icons, Windows taskbar |
 | 48 × 48 | Windows desktop icons |
-| 64 × 64 | High-DPI small icons |
-| 128 × 128 | macOS Dock icons |
 | 256 × 256 | High-resolution Windows icons |
-| 512 × 512 | Extra-high-resolution / retina icons |
 
-> Only one size is applied per conversion run. Select the size before clicking **Convert**.
+> Select any combination of sizes before clicking **Convert**. Each `.ico` contains all selected resolutions.
 
 ---
 
@@ -143,8 +141,11 @@ npm run preview
 png-to-ico-convert-react-app/
 ├── components/
 │   ├── FileUploader.tsx   # Drag-and-drop / click-to-upload component
+│   ├── HistoryPanel.tsx   # Recent conversions list
 │   ├── Icons.tsx          # SVG icon components (Upload, Download, Convert, etc.)
-│   └── SizeSelector.tsx   # Icon size selection grid
+│   ├── SizeSelector.tsx   # Multi-size selection grid
+│   ├── ThemeProvider.tsx  # Dark/Light theme context
+│   └── ThemeToggle.tsx    # Theme toggle button
 ├── utils/
 │   └── converter.ts       # PNG → ICO conversion logic (Canvas API + ICO binary encoding)
 ├── App.tsx                # Root application component and state management
@@ -194,4 +195,3 @@ No license specified. All rights reserved by the repository owner unless otherwi
 - [Tailwind CSS](https://tailwindcss.com/) — utility-first CSS framework
 - [JSZip](https://stuk.github.io/jszip/) — client-side ZIP file generation
 - ICO file format specification — [Wikipedia: ICO (file format)](https://en.wikipedia.org/wiki/ICO_(file_format))
-
