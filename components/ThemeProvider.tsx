@@ -8,9 +8,14 @@ interface ThemeContextValue {
   toggleTheme: () => void;
 }
 
-export const THEME_STORAGE_KEY = 'png-to-ico-theme';
-
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
+
+const getStorageKey = () => {
+  if (typeof document === 'undefined') {
+    return 'theme';
+  }
+  return document.documentElement.dataset.themeKey || 'theme';
+};
 
 const getInitialTheme = (): ThemeMode => {
   if (typeof window === 'undefined') {
@@ -18,12 +23,12 @@ const getInitialTheme = (): ThemeMode => {
   }
 
   try {
-    const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+    const storedTheme = window.localStorage.getItem(getStorageKey());
     if (storedTheme === 'dark' || storedTheme === 'light') {
       return storedTheme;
     }
   } catch (error) {
-    console.error('Theme storage unavailable', error);
+    console.error('Failed to read theme preference from localStorage', error);
   }
 
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -36,9 +41,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const root = document.documentElement;
     root.classList.toggle('dark', theme === 'dark');
     try {
-      window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+      window.localStorage.setItem(getStorageKey(), theme);
     } catch (error) {
-      console.error('Failed to persist theme', error);
+      console.error('Failed to persist theme preference to localStorage', error);
     }
   }, [theme]);
 

@@ -40,6 +40,9 @@ export const SizeSelector: React.FC<SizeSelectorProps> = ({ selectedSizes, onSel
           </button>
         ))}
       </div>
+      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+        Standard ICO sizes optimized for modern Windows icons.
+      </p>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme-key="png-to-ico-theme">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -21,7 +21,7 @@
     <script>
       (() => {
         try {
-          const storageKey = 'png-to-ico-theme';
+          const storageKey = document.documentElement.dataset.themeKey || 'theme';
           const storedTheme = localStorage.getItem(storageKey);
           const theme =
             storedTheme === 'dark' || storedTheme === 'light'

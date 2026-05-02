@@ -44,7 +44,7 @@ export const HistoryPanel: React.FC<HistoryPanelProps> = ({ items, onClear }) =>
                 {new Date(entry.timestamp).toLocaleString()}
               </p>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Sizes: {entry.sizes.join(' · ')} px
+                Sizes (px): {entry.sizes.join(' · ')}
               </p>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 sm:max-w-xs sm:text-right">

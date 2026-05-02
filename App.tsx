@@ -35,7 +35,10 @@ interface IcoFile {
 
 const formatSize = (bytes: number) => `${(bytes / 1024).toFixed(2)} KB`;
 
-const createHistoryId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+const createHistoryId = () =>
+  typeof crypto !== 'undefined' && 'randomUUID' in crypto
+    ? crypto.randomUUID()
+    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
 const App: React.FC = () => {
   const [items, setItems] = useState<PngItem[]>([]);
@@ -75,12 +78,6 @@ const App: React.FC = () => {
     };
   }, [items]);
 
-  useEffect(() => {
-    if (!isConverting && icoFiles.length > 0) {
-      setIcoFiles([]);
-    }
-  }, [selectedSizes]);
-
   const handleFileSelect = useCallback((files: File[]) => {
     let incomingFiles = Array.from(files);
     const errorMessages: string[] = [];
@@ -119,6 +116,16 @@ const App: React.FC = () => {
     setCompletedCount(0);
     setError(errorMessages.length > 0 ? errorMessages.join(' ') : null);
   }, []);
+
+  const handleSizeChange = useCallback(
+    (sizes: number[]) => {
+      setSelectedSizes(sizes);
+      if (!isConverting && icoFiles.length > 0) {
+        setIcoFiles([]);
+      }
+    },
+    [icoFiles.length, isConverting],
+  );
 
   const handleConvert = async () => {
     if (items.length === 0 || normalizedSizes.length === 0) {
@@ -335,7 +342,7 @@ const App: React.FC = () => {
                   })}
                 </div>
 
-                <SizeSelector selectedSizes={selectedSizes} onSelectionChange={setSelectedSizes} />
+                <SizeSelector selectedSizes={selectedSizes} onSelectionChange={handleSizeChange} />
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <button
