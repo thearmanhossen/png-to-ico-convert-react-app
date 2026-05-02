@@ -1,19 +1,58 @@
 # PNG → ICO Converter
 
-A fast, client-side web application that converts PNG images to ICO format — no server, no uploads, no data leaves your browser.
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)
+![License](https://img.shields.io/badge/License-No%20license%20specified-lightgrey)
+
+A fast, fully client-side PNG to ICO converter built with React and TypeScript. Upload one or more PNG images, choose your desired icon size, and download ready-to-use `.ico` files — all without sending any data to a server.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Demo](#demo)
+- [Screenshots](#screenshots)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Run Locally](#run-locally)
+  - [Build for Production](#build-for-production)
+- [Usage](#usage)
+- [Supported Icon Sizes](#supported-icon-sizes)
+- [Project Structure](#project-structure)
+- [Scripts](#scripts)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
 ---
 
 ## Features
 
-- 🖼️ **Batch conversion** — convert up to 100 PNG files in a single session
-- 🔒 **Fully client-side** — all processing happens in the browser; your images are never uploaded
-- 🖱️ **Drag-and-drop upload** — drop files onto the upload zone or click to browse
-- 📐 **Multiple output sizes** — choose from 16 × 16, 24 × 24, 32 × 32, 48 × 48, 64 × 64, 128 × 128, 256 × 256, or 512 × 512 pixels
-- 🎨 **Transparency preserved** — RGBA / alpha channel is maintained in the output ICO
-- ⬇️ **Flexible downloads** — download each icon individually or grab all of them in a single `.zip` archive
-- 👁️ **File preview** — see a thumbnail and file size of every PNG before converting
-- 📊 **Size comparison** — results view shows original KB → converted KB for each file
+- **Client-side conversion** — all processing happens in the browser using the Canvas API; no files ever leave your machine.
+- **Drag & drop or click-to-upload** — intuitive file upload with visual drag-over feedback.
+- **Batch conversion** — convert up to 100 PNG files in a single operation.
+- **Flexible icon sizes** — choose from 8 standard sizes: 16 × 16, 24 × 24, 32 × 32, 48 × 48, 64 × 64, 128 × 128, 256 × 256, or 512 × 512 pixels.
+- **Transparency support** — generates 32-bit RGBA ICO files that preserve alpha channels.
+- **File preview** — thumbnail previews with file name and size shown before conversion.
+- **Individual download** — download any converted file as a `.ico` directly.
+- **Download all as ZIP** — bundle all converted icons into a single `converted_icons.zip` file.
+- **PNG-only validation** — non-PNG files are silently filtered out with a user-friendly warning.
+
+---
+
+## Demo
+
+> 🚀 Live demo: _No live deployment link available yet. Run the project locally (see [Getting Started](#getting-started))._
+
+---
+
+## Screenshots
+
+> 📸 _Screenshots coming soon. Replace this section with images once available._
 
 ---
 
@@ -21,12 +60,12 @@ A fast, client-side web application that converts PNG images to ICO format — n
 
 | Layer | Technology |
 |---|---|
-| UI Framework | [React](https://react.dev/) 19 |
-| Language | [TypeScript](https://www.typescriptlang.org/) ~5.8 |
-| Build Tool | [Vite](https://vitejs.dev/) 6 |
-| Styling | [Tailwind CSS](https://tailwindcss.com/) (CDN) |
-| ZIP Generation | [JSZip](https://stuk.github.io/jszip/) 3.10 (CDN) |
-| Font | [Inter](https://rsms.me/inter/) |
+| UI framework | [React 19](https://react.dev/) |
+| Language | [TypeScript 5.8](https://www.typescriptlang.org/) |
+| Build tool | [Vite 6](https://vitejs.dev/) |
+| Styling | [Tailwind CSS](https://tailwindcss.com/) (loaded via CDN) |
+| ZIP packaging | [JSZip 3.10](https://stuk.github.io/jszip/) (loaded via CDN) |
+| ICO encoding | Custom implementation using the HTML5 Canvas API |
 
 ---
 
@@ -34,41 +73,34 @@ A fast, client-side web application that converts PNG images to ICO format — n
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) ≥ 18.x
-- npm ≥ 9.x (bundled with Node.js)
+- [Node.js](https://nodejs.org/) v18 or later
+- npm v9 or later (bundled with Node.js)
 
 ### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/thearmanhossen/png-to-ico-convert-react-app.git
 cd png-to-ico-convert-react-app
-
-# Install dependencies
 npm install
 ```
 
-### Development
-
-Start the local development server (available at `http://localhost:3000`):
+### Run Locally
 
 ```bash
 npm run dev
 ```
 
-### Build
+The development server starts at [http://localhost:3000](http://localhost:3000).
 
-Compile and bundle the app for production:
+### Build for Production
 
 ```bash
 npm run build
 ```
 
-The output is placed in the `dist/` directory.
+Static output is written to the `dist/` directory.
 
-### Preview Production Build
-
-Serve the production build locally to verify it before deploying:
+To preview the production build locally:
 
 ```bash
 npm run preview
@@ -78,19 +110,30 @@ npm run preview
 
 ## Usage
 
-1. **Open the app** in your browser (`http://localhost:3000` in dev mode).
-2. **Upload PNG files** by dragging and dropping them onto the upload zone, or click **"Click to upload"** to open the file picker. Only `.png` files are accepted; any other file types are silently ignored.
-3. **Choose an output size** using the size selector buttons (16 – 512 px). The selected size applies to all files in the current batch.
-4. **Click "Convert"** to start the conversion. All files are processed in parallel in the browser.
-5. **Download your icons**:
-   - Click the **download button** next to any file to save it individually.
-   - Click **"Download All (.zip)"** to receive every converted icon in a single archive.
-6. Click **"Start Over"** to clear results and convert another batch.
+1. **Open the app** in your browser (see [Run Locally](#run-locally)).
+2. **Upload PNG files** by dragging and dropping them onto the upload area, or clicking it to open a file picker. Up to **100 PNG files** can be selected at once.
+3. **Review** the file list. Each entry shows a thumbnail, file name, and file size.
+4. **Select an icon size** from the size grid (default: 512 px).
+5. Click **Convert** to start the conversion. Progress is indicated by a loading spinner.
+6. Once complete, **download** individual `.ico` files using the download button next to each entry, or click **Download All (.zip)** to get all files in a single archive.
+7. Click **Start Over** (or **Clear**) to reset and convert another batch.
 
-> **Tips**
-> - For best results, use square PNG source images with a transparent background.
-> - 256 × 256 and 512 × 512 sizes produce the highest-quality icons for modern operating systems.
-> - Large source files (e.g. 4K artwork) may take a moment to process — this is normal.
+---
+
+## Supported Icon Sizes
+
+| Size | Common Use |
+|---|---|
+| 16 × 16 | Browser favicons, taskbar icons |
+| 24 × 24 | Small toolbar icons |
+| 32 × 32 | Desktop icons, Windows taskbar |
+| 48 × 48 | Windows desktop icons |
+| 64 × 64 | High-DPI small icons |
+| 128 × 128 | macOS Dock icons |
+| 256 × 256 | High-resolution Windows icons |
+| 512 × 512 | Extra-high-resolution / retina icons |
+
+> Only one size is applied per conversion run. Select the size before clicking **Convert**.
 
 ---
 
@@ -100,13 +143,13 @@ npm run preview
 png-to-ico-convert-react-app/
 ├── components/
 │   ├── FileUploader.tsx   # Drag-and-drop / click-to-upload component
-│   ├── Icons.tsx          # SVG icon components
-│   └── SizeSelector.tsx   # Output size picker (16–512 px)
+│   ├── Icons.tsx          # SVG icon components (Upload, Download, Convert, etc.)
+│   └── SizeSelector.tsx   # Icon size selection grid
 ├── utils/
-│   └── converter.ts       # Core PNG → ICO conversion logic
-├── App.tsx                # Root application component
+│   └── converter.ts       # PNG → ICO conversion logic (Canvas API + ICO binary encoding)
+├── App.tsx                # Root application component and state management
 ├── index.tsx              # React entry point
-├── index.html             # HTML shell (loads Tailwind & JSZip from CDN)
+├── index.html             # HTML shell (loads Tailwind CSS & JSZip from CDN)
 ├── vite.config.ts         # Vite configuration
 ├── tsconfig.json          # TypeScript configuration
 └── package.json           # Project metadata and scripts
@@ -114,36 +157,41 @@ png-to-ico-convert-react-app/
 
 ---
 
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the Vite development server on port 3000 |
+| `npm run build` | Compile TypeScript and bundle for production |
+| `npm run preview` | Serve the production build locally for testing |
+
+---
+
 ## Contributing
 
-Contributions are welcome! Please follow the steps below:
+Contributions are welcome! To get started:
 
-1. **Fork** this repository.
-2. **Create a feature branch**: `git checkout -b feature/your-feature-name`
-3. **Commit your changes** with a clear message: `git commit -m "feat: describe your change"`
-4. **Push** to your fork: `git push origin feature/your-feature-name`
-5. **Open a Pull Request** against the `main` branch and describe what you changed and why.
+1. Fork the repository.
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push to your fork: `git push origin feature/your-feature-name`
+5. Open a Pull Request against the `main` branch.
 
-Please ensure your code:
-- Passes the TypeScript compiler without errors (`npx tsc --noEmit`).
-- Follows the existing code style.
-- Does not introduce new runtime dependencies without discussion.
+Please keep PRs focused and include a clear description of what was changed and why.
 
 ---
 
 ## License
 
-No license has been specified for this project. All rights are reserved by the author by default.  
-> It is recommended to add a license file (e.g. [MIT](https://choosealicense.com/licenses/mit/)) to clarify how others may use, modify, and distribute this software.
+No license specified. All rights reserved by the repository owner unless otherwise noted.
 
 ---
 
-## Credits & Acknowledgements
+## Acknowledgements
 
-- [React](https://react.dev/) — UI library
-- [Vite](https://vitejs.dev/) — next-generation frontend tooling
-- [TypeScript](https://www.typescriptlang.org/) — typed JavaScript
+- [React](https://react.dev/) — UI framework
+- [Vite](https://vitejs.dev/) — blazing-fast build tooling
 - [Tailwind CSS](https://tailwindcss.com/) — utility-first CSS framework
-- [JSZip](https://stuk.github.io/jszip/) — client-side ZIP file creation
-- [Inter](https://rsms.me/inter/) — typeface by Rasmus Andersson
+- [JSZip](https://stuk.github.io/jszip/) — client-side ZIP file generation
+- ICO file format specification — [Wikipedia: ICO (file format)](https://en.wikipedia.org/wiki/ICO_(file_format))
 
